@@ -3,6 +3,9 @@ let boxes = document.querySelectorAll(".box");
 let resetBtn = document.querySelector("#reset-btn");
 let msgContainer = document.querySelector(".msg-container");
 let msg = document.querySelector("#msg");
+let player1Input = document.querySelector("#player1");
+let player2Input = document.querySelector("#player2");
+let turnDisplay = document.querySelector("#turn-display");
 
 let turn = true; 
 let gameOver = false;
@@ -19,10 +22,12 @@ const winPatterns = [
 ];
 
 const showWinner = (winner) => {
-    msg.innerText = `Congratulations, Winner is ${winner}`;
+    let winnerName = winner === "O" ? player1Input.value : player2Input.value;
+    msg.innerText = `Congratulations, Winner is ${winnerName}!`;
     msgContainer.classList.remove("hide");
     resetBtn.innerText="New Game";
     dis.classList.add("hide");
+    turnDisplay.style.display = "none";
 }
 const checkWinner = () => {
     for (let pattern of winPatterns) {
@@ -39,6 +44,12 @@ const checkWinner = () => {
     }
 };
 
+const updateTurnDisplay = () => {
+    let currentPlayer = turn ? player1Input.value : player2Input.value;
+    let symbol = turn ? "O" : "X";
+    turnDisplay.innerText = `${currentPlayer}'s turn (${symbol})`;
+};
+
 boxes.forEach((box) => {
     box.addEventListener("click", () => {
         if (!gameOver) {
@@ -49,7 +60,10 @@ boxes.forEach((box) => {
             }
             box.disabled = true;
             checkWinner();
-            turn = !turn; // Switch turn
+            if (!gameOver) {
+                turn = !turn;
+                updateTurnDisplay();
+            }
         }
     });
 });
@@ -59,9 +73,14 @@ resetBtn.addEventListener("click", () => {
         box.innerText = "";
         box.disabled = false;
     });
-    turn = true;0
+    turn = true;
     gameOver = false;
     msgContainer.classList.add("hide");
     dis.classList.remove("hide");
     resetBtn.innerText="Reset Game";
+    turnDisplay.style.display = "block";
+    updateTurnDisplay();
 });
+
+// Initial turn display
+updateTurnDisplay();
