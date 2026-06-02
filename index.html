@@ -7,32 +7,40 @@
     <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <div class="msg-container hide">
-        <p id ="msg">WINNER</p>
-    </div>
-    <main>
-        <div class="gm">
-        <h1>Tic Tac Toe</h1>
-        <div class="player-inputs">
-            <input type="text" id="player1" placeholder="Player 1 (O)" value="Player 1">
-            <input type="text" id="player2" placeholder="Player 2 (X)" value="Player 2">
-        </div>
-        <div id="turn-display">Player 1's turn (O)</div>
-            <div class="container">
-                <div class="game">
-                    <button class="box"></button>
-                    <button class="box"></button>
-                    <button class="box"></button>
-                    <button class="box"></button>
-                    <button class="box"></button>
-                    <button class="box"></button>
-                    <button class="box"></button>
-                    <button class="box"></button>
-                    <button class="box"></button>
+    <main class="page">
+        <header class="header">
+            <div class="badge">Classic</div>
+            <h1>Tic Tac Toe</h1>
+            <p class="subtitle">Fast turns, clean wins. Play local and pass the turn.</p>
+        </header>
+
+        <section class="panel">
+            <div class="status" id="status">O starts. Place your move.</div>
+
+            <div class="msg-container hide">
+                <p id="msg">WINNER</p>
+            </div>
+
+            <div class="gm">
+                <div class="container">
+                    <div class="game" role="grid" aria-label="Tic Tac Toe board">
+                        <button class="box" aria-label="Cell 1"></button>
+                        <button class="box" aria-label="Cell 2"></button>
+                        <button class="box" aria-label="Cell 3"></button>
+                        <button class="box" aria-label="Cell 4"></button>
+                        <button class="box" aria-label="Cell 5"></button>
+                        <button class="box" aria-label="Cell 6"></button>
+                        <button class="box" aria-label="Cell 7"></button>
+                        <button class="box" aria-label="Cell 8"></button>
+                        <button class="box" aria-label="Cell 9"></button>
+                    </div>
                 </div>
             </div>
-        </div>
-            <button id="reset-btn">Reset Game</button>
+
+            <div class="controls">
+                <button id="reset-btn">Reset Game</button>
+            </div>
+        </section>
     </main>
     <script src="app.js"></script>
 </body>

@@ -3,12 +3,11 @@ let boxes = document.querySelectorAll(".box");
 let resetBtn = document.querySelector("#reset-btn");
 let msgContainer = document.querySelector(".msg-container");
 let msg = document.querySelector("#msg");
-let player1Input = document.querySelector("#player1");
-let player2Input = document.querySelector("#player2");
-let turnDisplay = document.querySelector("#turn-display");
+let statusLine = document.querySelector("#status");
 
 let turn = true; 
 let gameOver = false;
+let moveCount = 0;
 
 const winPatterns = [
     [0, 1, 2],
@@ -22,12 +21,19 @@ const winPatterns = [
 ];
 
 const showWinner = (winner) => {
-    let winnerName = winner === "O" ? player1Input.value : player2Input.value;
-    msg.innerText = `Congratulations, Winner is ${winnerName}!`;
+    msg.innerText = `Congratulations, Winner is ${winner}`;
     msgContainer.classList.remove("hide");
+    statusLine.innerText = `Winner: ${winner}`;
     resetBtn.innerText="New Game";
     dis.classList.add("hide");
-    turnDisplay.style.display = "none";
+}
+
+const showDraw = () => {
+    msg.innerText = "It is a draw. Try again!";
+    msgContainer.classList.remove("hide");
+    statusLine.innerText = "Draw game";
+    resetBtn.innerText = "New Game";
+    dis.classList.add("hide");
 }
 const checkWinner = () => {
     for (let pattern of winPatterns) {
@@ -42,12 +48,12 @@ const checkWinner = () => {
             return;
         }
     }
-};
 
-const updateTurnDisplay = () => {
-    let currentPlayer = turn ? player1Input.value : player2Input.value;
-    let symbol = turn ? "O" : "X";
-    turnDisplay.innerText = `${currentPlayer}'s turn (${symbol})`;
+    if (moveCount === boxes.length && !gameOver) {
+        gameOver = true;
+        boxes.forEach(box => box.disabled = true);
+        showDraw();
+    }
 };
 
 boxes.forEach((box) => {
@@ -59,10 +65,11 @@ boxes.forEach((box) => {
                 box.innerText = "X";
             }
             box.disabled = true;
+            moveCount += 1;
             checkWinner();
             if (!gameOver) {
-                turn = !turn;
-                updateTurnDisplay();
+                turn = !turn; // Switch turn
+                statusLine.innerText = turn ? "O to move" : "X to move";
             }
         }
     });
@@ -74,13 +81,10 @@ resetBtn.addEventListener("click", () => {
         box.disabled = false;
     });
     turn = true;
+    moveCount = 0;
     gameOver = false;
     msgContainer.classList.add("hide");
     dis.classList.remove("hide");
     resetBtn.innerText="Reset Game";
-    turnDisplay.style.display = "block";
-    updateTurnDisplay();
+    statusLine.innerText = "O starts. Place your move.";
 });
-
-// Initial turn display
-updateTurnDisplay();
