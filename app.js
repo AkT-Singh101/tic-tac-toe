@@ -44,7 +44,7 @@ const checkWinner = () => {
         if (pos1Val !== "" && pos1Val === pos2Val && pos2Val === pos3Val) {
             showWinner(pos1Val);
             gameOver = true;
-            boxes.forEach(box => box.disabled = true); // Disable further clicks after win
+            boxes.forEach(box => box.disabled = true); 
             return;
         }
     }
